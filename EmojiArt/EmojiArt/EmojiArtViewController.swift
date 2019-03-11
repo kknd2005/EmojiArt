@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EmojiArtViewController: UIViewController,UIDropInteractionDelegate {
+class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate {
 
     @IBOutlet var dropView: UIView!{
         didSet{dropView.addInteraction(UIDropInteraction(delegate: self))}
@@ -36,10 +36,12 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate {
         session.loadObjects(ofClass: NSURL.self) { urls in
             if let url = urls.first as? URL{
                 //self.imageFetcher?.fetch(url: url)
+                print(url)
                 self.fetch(url: url, handler: { image in
                     DispatchQueue.main.async {
                         print("got image")
-                        self.emojiArtView.backgroundImage = image
+                        print(image)
+                        self.emojiArtBackgroundImage = image
                     }
                 })
             }
@@ -47,7 +49,33 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate {
         }
     }
     
-    @IBOutlet weak var emojiArtView: EmojiArtView!
+    @IBOutlet weak var scrollView: UIScrollView!{
+        didSet{
+            scrollView.delegate = self
+            scrollView.minimumZoomScale = 0.1
+            scrollView.maximumZoomScale = 5.0
+            scrollView.addSubview(emojiArtView)
+        }
+    }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return emojiArtView
+    }
+    
+    var emojiArtView = EmojiArtView()
+    
+    var emojiArtBackgroundImage: UIImage?{
+        get{
+            return emojiArtView.backgroundImage
+        }
+        set{
+            scrollView?.zoomScale = 1
+            emojiArtView.backgroundImage = newValue
+            let size = newValue?.size ?? CGSize.zero
+            emojiArtView.frame = CGRect(origin: CGPoint.zero, size: size)
+            scrollView?.contentSize = size
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
