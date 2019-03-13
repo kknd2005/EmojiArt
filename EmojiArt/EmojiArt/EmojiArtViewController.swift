@@ -49,6 +49,8 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         }
     }
     
+    var emojiArtView = EmojiArtView()
+    
     @IBOutlet weak var scrollView: UIScrollView!{
         didSet{
             scrollView.delegate = self
@@ -62,7 +64,10 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         return emojiArtView
     }
     
-    var emojiArtView = EmojiArtView()
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        scrollViewWidth.constant = scrollView.contentSize.width
+        scrollViewHeight.constant = scrollView.contentSize.height
+    }
     
     var emojiArtBackgroundImage: UIImage?{
         get{
@@ -74,8 +79,14 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
             let size = newValue?.size ?? CGSize.zero
             emojiArtView.frame = CGRect(origin: CGPoint.zero, size: size)
             scrollView?.contentSize = size
+            scrollViewWidth.constant = size.width
+            scrollViewHeight.constant = size.height
         }
     }
+    
+    @IBOutlet weak var scrollViewWidth: NSLayoutConstraint!
+    @IBOutlet weak var scrollViewHeight: NSLayoutConstraint!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
