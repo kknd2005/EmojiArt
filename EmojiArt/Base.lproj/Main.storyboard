@@ -62,28 +62,66 @@
                         <rect key="frame" x="0.0" y="0.0" width="791.5" height="834"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ki5-Ib-JgB">
-                                <rect key="frame" x="0.0" y="20" width="791.5" height="814"/>
-                                <color key="backgroundColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JIE-DV-4pS" userLabel="DropView">
+                                <rect key="frame" x="0.0" y="150" width="791.5" height="684"/>
+                                <subviews>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ki5-Ib-JgB">
+                                        <rect key="frame" x="0.0" y="-10" width="792" height="694"/>
+                                        <color key="backgroundColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" priority="250" constant="200" id="Kyf-B3-ATW"/>
+                                            <constraint firstAttribute="width" priority="250" constant="200" id="dvn-7b-BEm"/>
+                                        </constraints>
+                                    </scrollView>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" priority="250" constant="100" id="Kyf-B3-ATW"/>
-                                    <constraint firstAttribute="width" priority="250" constant="100" id="dvn-7b-BEm"/>
+                                    <constraint firstItem="Ki5-Ib-JgB" firstAttribute="centerY" secondItem="JIE-DV-4pS" secondAttribute="centerY" id="CLW-Js-aWL"/>
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Ki5-Ib-JgB" secondAttribute="bottom" id="HL7-9x-bjU"/>
+                                    <constraint firstItem="Ki5-Ib-JgB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="JIE-DV-4pS" secondAttribute="leading" id="JhS-QE-IeR"/>
+                                    <constraint firstItem="Ki5-Ib-JgB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="JIE-DV-4pS" secondAttribute="top" id="az4-av-dP9"/>
+                                    <constraint firstItem="Ki5-Ib-JgB" firstAttribute="centerX" secondItem="JIE-DV-4pS" secondAttribute="centerX" id="tak-p3-LYe"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ki5-Ib-JgB" secondAttribute="trailing" id="xJr-HK-zV2"/>
                                 </constraints>
-                            </scrollView>
+                            </view>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0zi-dX-V1l">
+                                <rect key="frame" x="0.0" y="0.0" width="791.5" height="150"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="W2l-rb-6zZ"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3wq-Ql-5wp">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="1fN-H9-AI4">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Ki5-Ib-JgB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="w6W-Bc-WrL" secondAttribute="leading" id="4Yn-N8-sXz"/>
-                            <constraint firstItem="w6W-Bc-WrL" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ki5-Ib-JgB" secondAttribute="trailing" id="6me-aA-iUn"/>
-                            <constraint firstItem="w6W-Bc-WrL" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Ki5-Ib-JgB" secondAttribute="bottom" id="NVd-pq-3dQ"/>
-                            <constraint firstItem="Ki5-Ib-JgB" firstAttribute="centerY" secondItem="gCI-EB-oAw" secondAttribute="centerY" id="TPU-qL-jbI"/>
-                            <constraint firstItem="Ki5-Ib-JgB" firstAttribute="centerX" secondItem="gCI-EB-oAw" secondAttribute="centerX" id="Uve-wx-Kjy"/>
-                            <constraint firstItem="Ki5-Ib-JgB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="w6W-Bc-WrL" secondAttribute="top" id="soW-vh-eKy"/>
+                            <constraint firstItem="JIE-DV-4pS" firstAttribute="leading" secondItem="w6W-Bc-WrL" secondAttribute="leading" id="0wG-Iu-AKg"/>
+                            <constraint firstItem="0zi-dX-V1l" firstAttribute="top" secondItem="gCI-EB-oAw" secondAttribute="top" id="QUU-bj-KTe"/>
+                            <constraint firstAttribute="trailing" secondItem="0zi-dX-V1l" secondAttribute="trailing" id="acy-xQ-KRQ"/>
+                            <constraint firstItem="0zi-dX-V1l" firstAttribute="leading" secondItem="w6W-Bc-WrL" secondAttribute="leading" id="eDa-Wc-G6e"/>
+                            <constraint firstItem="JIE-DV-4pS" firstAttribute="bottom" secondItem="w6W-Bc-WrL" secondAttribute="bottom" id="juz-dD-WBm"/>
+                            <constraint firstItem="JIE-DV-4pS" firstAttribute="top" secondItem="0zi-dX-V1l" secondAttribute="bottom" id="qk8-Mm-334"/>
+                            <constraint firstItem="JIE-DV-4pS" firstAttribute="trailing" secondItem="w6W-Bc-WrL" secondAttribute="trailing" id="rlU-E6-N6G"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="w6W-Bc-WrL"/>
                     </view>
                     <connections>
-                        <outlet property="dropView" destination="gCI-EB-oAw" id="RPd-Bp-5t5"/>
+                        <outlet property="dropView" destination="JIE-DV-4pS" id="8EM-BG-IGW"/>
                         <outlet property="scrollView" destination="Ki5-Ib-JgB" id="mJP-v5-R5U"/>
                         <outlet property="scrollViewHeight" destination="Kyf-B3-ATW" id="l9H-2l-y2j"/>
                         <outlet property="scrollViewWidth" destination="dvn-7b-BEm" id="1U8-ra-qvP"/>
@@ -91,7 +129,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A2g-4N-idh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="241" y="-322"/>
+            <point key="canvasLocation" x="240.64748201438849" y="-322.30215827338134"/>
         </scene>
         <!--Document Browser View Controller-->
         <scene sceneID="tne-QT-ifu">
