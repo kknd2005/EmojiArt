@@ -49,6 +49,17 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         }
     }
     
+    //set the side view to be primaryOverlay
+    //we are setting it in this method case everytime viewWillLayoutSubviews, preferredDisplayMode will be reset prossbiliy
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        if  splitViewController?.preferredDisplayMode != .primaryOverlay {
+            splitViewController?.preferredDisplayMode = .primaryOverlay
+
+        }
+    }
+    
     var emojiArtView = EmojiArtView()
     
     @IBOutlet weak var scrollView: UIScrollView!{
