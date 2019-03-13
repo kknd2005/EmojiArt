@@ -64,6 +64,7 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         return emojiArtView
     }
     
+    //update the size of the scrollView
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         scrollViewWidth.constant = scrollView.contentSize.width
         scrollViewHeight.constant = scrollView.contentSize.height
@@ -79,6 +80,7 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
             let size = newValue?.size ?? CGSize.zero
             emojiArtView.frame = CGRect(origin: CGPoint.zero, size: size)
             scrollView?.contentSize = size
+            //update the size of the scrollView
             scrollViewWidth.constant = size.width
             scrollViewHeight.constant = size.height
         }
