@@ -63,7 +63,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JIE-DV-4pS" userLabel="DropView">
-                                <rect key="frame" x="0.0" y="150" width="791.5" height="684"/>
+                                <rect key="frame" x="0.0" y="100" width="791.5" height="684"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ki5-Ib-JgB">
                                         <rect key="frame" x="0.0" y="-10" width="792" height="694"/>
@@ -85,25 +85,40 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0zi-dX-V1l">
-                                <rect key="frame" x="0.0" y="0.0" width="791.5" height="150"/>
+                                <rect key="frame" x="0.0" y="0.0" width="791.5" height="100"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="W2l-rb-6zZ"/>
+                                    <constraint firstAttribute="height" constant="100" id="W2l-rb-6zZ"/>
                                 </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3wq-Ql-5wp">
-                                    <size key="itemSize" width="50" height="50"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3wq-Ql-5wp">
+                                    <size key="itemSize" width="80" height="80"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="1fN-H9-AI4">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EmojiCell" id="1fN-H9-AI4" customClass="EmojiCollectionViewCell" customModule="EmojiArt" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="10" width="80" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🐶" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tPM-wA-hgx">
+                                                    <rect key="frame" x="13" y="10" width="54" height="60"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </view>
+                                        <constraints>
+                                            <constraint firstItem="tPM-wA-hgx" firstAttribute="centerY" secondItem="1fN-H9-AI4" secondAttribute="centerY" id="E0h-EC-B7L"/>
+                                            <constraint firstItem="tPM-wA-hgx" firstAttribute="centerX" secondItem="1fN-H9-AI4" secondAttribute="centerX" id="YAw-Ff-AF7"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="emoji" destination="tPM-wA-hgx" id="NyJ-5v-JDI"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -120,8 +135,12 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="w6W-Bc-WrL"/>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="collectionViewHeight" destination="W2l-rb-6zZ" id="jPA-Ol-l13"/>
                         <outlet property="dropView" destination="JIE-DV-4pS" id="8EM-BG-IGW"/>
+                        <outlet property="emojiCollectionView" destination="0zi-dX-V1l" id="kKb-he-iNK"/>
                         <outlet property="scrollView" destination="Ki5-Ib-JgB" id="mJP-v5-R5U"/>
                         <outlet property="scrollViewHeight" destination="Kyf-B3-ATW" id="l9H-2l-y2j"/>
                         <outlet property="scrollViewWidth" destination="dvn-7b-BEm" id="1U8-ra-qvP"/>

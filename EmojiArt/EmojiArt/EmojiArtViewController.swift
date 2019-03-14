@@ -8,8 +8,12 @@
 
 import UIKit
 
-class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate {
+class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
 
+    
+
+    //MARK: - drop interaction for Drop View
+    
     @IBOutlet var dropView: UIView!{
         didSet{dropView.addInteraction(UIDropInteraction(delegate: self))}
     }
@@ -49,6 +53,7 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         }
     }
     
+    //MARK: - preferredDisplayMode setup
     //set the side view to be primaryOverlay
     //we are setting it in this method case everytime viewWillLayoutSubviews, preferredDisplayMode will be reset prossbiliy
     override func viewWillLayoutSubviews() {
@@ -56,9 +61,12 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         
         if  splitViewController?.preferredDisplayMode != .primaryOverlay {
             splitViewController?.preferredDisplayMode = .primaryOverlay
-
         }
+  
     }
+    
+    
+    //MARK: - scrollView setup
     
     var emojiArtView = EmojiArtView()
     
@@ -99,13 +107,10 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     
     @IBOutlet weak var scrollViewWidth: NSLayoutConstraint!
     @IBOutlet weak var scrollViewHeight: NSLayoutConstraint!
+   
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    
-    }
+    //MARK: - fetch data
     
     func fetch(url:URL, handler:@escaping (UIImage)->Void){
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
@@ -122,5 +127,46 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         }
     }
 
+    //MARK: - collection view
+    
+    var emojis = "🐱🐶🐭🐹🐰🐸🐣🐤🐝🐚🦋🦑🐙🦕🐳🐠🦈🦒".map{String($0)}
+    
+    @IBOutlet weak var emojiCollectionView: UICollectionView!{
+        didSet{
+            emojiCollectionView.dataSource = self
+            emojiCollectionView.delegate = self
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return emojis.count
+    }
+    
+    private var fontSize:CGFloat = 56
+    
+    private var font: UIFont {
+        return UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.preferredFont(forTextStyle: .body)).withSize(fontSize)
+    }
+    
+    @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionViewHeight.constant = fontSize * 1.6
+        if collectionViewHeight.constant < 100.0 {
+            collectionViewHeight.constant = 100.0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCell", for: indexPath)
+        
+        if let emojiCell = cell as? EmojiCollectionViewCell{
+            let text = NSAttributedString(string: emojis[indexPath.row], attributes: [.font:font])
+            emojiCell.emoji.attributedText = text
+        }
+        return cell
+    }
+    
 
 }
