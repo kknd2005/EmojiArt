@@ -8,7 +8,10 @@
 
 import UIKit
 
-class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate,UICollectionViewDropDelegate {
+
+
+    
 
     
 
@@ -135,6 +138,10 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         didSet{
             emojiCollectionView.dataSource = self
             emojiCollectionView.delegate = self
+            //drag
+            emojiCollectionView.dragDelegate = self
+            //drop
+            emojiCollectionView.dropDelegate = self
         }
     }
     
@@ -168,5 +175,57 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         return cell
     }
     
+    //MARK: - collectionView drag
+    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        session.localContext = collectionView //let me know if the drag item is coming from collectionView(local context)
+        return dragItems(at: indexPath)
+    }
+    
+    //for muti-drag
+    func collectionView(_ collectionView: UICollectionView, itemsForAddingTo session: UIDragSession, at indexPath: IndexPath, point: CGPoint) -> [UIDragItem] {
+        return dragItems(at: indexPath)
+    }
+    
+    private func dragItems(at indexPath: IndexPath) -> [UIDragItem]{
+        if let attributString = (emojiCollectionView.cellForItem(at: indexPath) as? EmojiCollectionViewCell)?.emoji.attributedText {
+            let dragItem = UIDragItem(itemProvider: NSItemProvider(object: attributString))
+            dragItem.localObject = attributString
+            return [dragItem]
+        }else{
+            return []
+        }
+    }
 
+    //MARK: - collectionView drop
+    func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool {
+        return session.canLoadObjects(ofClass: NSAttributedString.self)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+        let isSelf = (session.localDragSession?.localContext as? UICollectionViewCell) == collectionView
+        //different than View, becase collectionView needs to know how to add the dragItems into itself
+        return UICollectionViewDropProposal(operation: isSelf ? .move : .copy, intent: .insertAtDestinationIndexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+        //1.get the destination
+        let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
+        
+        for item in coordinator.items{
+            //2.get the soruceIndex & dragData
+            if let sourceIndexPath = item.sourceIndexPath, let attributedString = item.dragItem.localObject as? NSAttributedString{
+                //3.must update those things in batch
+                collectionView.performBatchUpdates({
+                    emojis.remove(at: sourceIndexPath.item)
+                    emojis.insert(attributedString.string, at: destinationIndexPath.item)
+                    //Don't update the whole collectionView, del and insert sepratly
+                    collectionView.deleteItems(at: [sourceIndexPath])
+                    collectionView.insertItems(at: [destinationIndexPath])
+                })
+                //4.perform animation
+                coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+            }
+        }
+    }
+    
 }
