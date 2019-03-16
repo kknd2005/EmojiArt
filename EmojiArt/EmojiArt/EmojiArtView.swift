@@ -58,6 +58,7 @@ class EmojiArtView: UIView , UIDropInteractionDelegate{
         newLabel.center = centered
         addSubview(newLabel)
     }
+    //test
     
     //MARK: - backgroundImage
     var backgroundImage: UIImage?{
