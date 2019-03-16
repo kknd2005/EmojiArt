@@ -56,6 +56,8 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         }
     }
     
+    @IBOutlet weak var ImageFetchingActivityIndicator: UIActivityIndicatorView!
+    
     //MARK: - preferredDisplayMode setup
     //set the side view to be primaryOverlay
     //we are setting it in this method case everytime viewWillLayoutSubviews, preferredDisplayMode will be reset prossbiliy
@@ -116,6 +118,9 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     //MARK: - fetch data
     
     func fetch(url:URL, handler:@escaping (UIImage)->Void){
+        
+        ImageFetchingActivityIndicator.startAnimating()
+        
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             
             if let data = try? Data(contentsOf: url){
@@ -123,9 +128,13 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
                     if let image = UIImage(data: data){
                         handler(image)
                     }
+                    DispatchQueue.main.async {
+                        self?.ImageFetchingActivityIndicator.stopAnimating()
+                    }
                 }else{
                     //igroning result case I'm not in the heap ever.
                 }
+                
             }
         }
     }

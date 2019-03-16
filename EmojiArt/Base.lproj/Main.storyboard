@@ -73,14 +73,19 @@
                                             <constraint firstAttribute="width" priority="250" constant="200" id="dvn-7b-BEm"/>
                                         </constraints>
                                     </scrollView>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ysn-5S-jfS">
+                                        <rect key="frame" x="377.5" y="323.5" width="37" height="37"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
+                                    <constraint firstItem="ysn-5S-jfS" firstAttribute="centerY" secondItem="JIE-DV-4pS" secondAttribute="centerY" id="5Z2-gm-xew"/>
                                     <constraint firstItem="Ki5-Ib-JgB" firstAttribute="centerY" secondItem="JIE-DV-4pS" secondAttribute="centerY" id="CLW-Js-aWL"/>
                                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Ki5-Ib-JgB" secondAttribute="bottom" id="HL7-9x-bjU"/>
                                     <constraint firstItem="Ki5-Ib-JgB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="JIE-DV-4pS" secondAttribute="leading" id="JhS-QE-IeR"/>
                                     <constraint firstItem="Ki5-Ib-JgB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="JIE-DV-4pS" secondAttribute="top" id="az4-av-dP9"/>
                                     <constraint firstItem="Ki5-Ib-JgB" firstAttribute="centerX" secondItem="JIE-DV-4pS" secondAttribute="centerX" id="tak-p3-LYe"/>
+                                    <constraint firstItem="ysn-5S-jfS" firstAttribute="centerX" secondItem="JIE-DV-4pS" secondAttribute="centerX" id="vDg-hD-Dve"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ki5-Ib-JgB" secondAttribute="trailing" id="xJr-HK-zV2"/>
                                 </constraints>
                             </view>
@@ -155,6 +160,7 @@
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="ImageFetchingActivityIndicator" destination="ysn-5S-jfS" id="IA1-1y-gdF"/>
                         <outlet property="collectionViewHeight" destination="W2l-rb-6zZ" id="jPA-Ol-l13"/>
                         <outlet property="dropView" destination="JIE-DV-4pS" id="8EM-BG-IGW"/>
                         <outlet property="emojiCollectionView" destination="0zi-dX-V1l" id="kKb-he-iNK"/>
