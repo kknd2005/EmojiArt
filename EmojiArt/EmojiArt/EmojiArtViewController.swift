@@ -207,25 +207,69 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         return UICollectionViewDropProposal(operation: isSelf ? .move : .copy, intent: .insertAtDestinationIndexPath)
     }
     
+//    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+//        //1.get the destination
+//        let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
+//
+//        for item in coordinator.items{
+//            //2.get the soruceIndex & dragData
+//            if let sourceIndexPath = item.sourceIndexPath, let attributedString = item.dragItem.localObject as? NSAttributedString{
+//                //3.must update those things in batch
+//                collectionView.performBatchUpdates({
+//                    emojis.remove(at: sourceIndexPath.item)
+//                    emojis.insert(attributedString.string, at: destinationIndexPath.item)
+//                    //Don't update the whole collectionView, del and insert sepratly
+//                    collectionView.deleteItems(at: [sourceIndexPath])
+//                    collectionView.insertItems(at: [destinationIndexPath])
+//                })
+//                //4.perform animation
+//                coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+//            }
+//        }
+//    }
+    
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
-        //1.get the destination
-        let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
+        //1. get destationIndexPath
+        let destationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
         
+        //2. go though every item
         for item in coordinator.items{
-            //2.get the soruceIndex & dragData
-            if let sourceIndexPath = item.sourceIndexPath, let attributedString = item.dragItem.localObject as? NSAttributedString{
-                //3.must update those things in batch
+            //3. get soruceIndexPath
+            //4. get the data from dragItem
+            //the item is coming from inside this app
+            if let soruceIndexPath = item.sourceIndexPath, let attributedString = item.dragItem.localObject as? NSAttributedString{
                 collectionView.performBatchUpdates({
-                    emojis.remove(at: sourceIndexPath.item)
-                    emojis.insert(attributedString.string, at: destinationIndexPath.item)
-                    //Don't update the whole collectionView, del and insert sepratly
-                    collectionView.deleteItems(at: [sourceIndexPath])
-                    collectionView.insertItems(at: [destinationIndexPath])
+                    //5. update the model & UI
+                    emojis.remove(at: soruceIndexPath.item)
+                    emojis.insert(attributedString.string, at: destationIndexPath.item)
+                    collectionView.deleteItems(at: [soruceIndexPath])
+                    collectionView.insertItems(at: [destationIndexPath])
                 })
-                //4.perform animation
-                coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+                //6. perfrom animation
+                coordinator.drop(item.dragItem, toItemAt: destationIndexPath)
+            }else{
+                //the item is coming from outside this app
+                //1. create a placeHolder
+                let placeHolder = coordinator.drop(item.dragItem,
+                                                   to: UICollectionViewDropPlaceholder(insertionIndexPath: destationIndexPath, reuseIdentifier: "placeHolder"))
+                
+                //2. loadObject from dragItem
+                item.dragItem.itemProvider.loadObject(ofClass: NSAttributedString.self) { (provider, error) in
+                    //Note: this is excuting off the main queue!
+                    DispatchQueue.main.async {
+                        if let attributedString = provider as? NSAttributedString{
+                            //3. tell placeHolder to update the model (commitInsection)
+                            placeHolder.commitInsertion(dataSourceUpdates: { (IndexPath) in
+                                self.emojis.insert(attributedString.string, at: IndexPath.item)
+                            })
+                        }else{
+                            //4. if failed, delete placeHolder
+                            placeHolder.deletePlaceholder()
+                        }
+                    }
+                }
             }
         }
+
     }
-    
 }
