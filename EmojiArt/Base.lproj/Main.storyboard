@@ -69,8 +69,8 @@
                                         <rect key="frame" x="0.0" y="-10" width="792" height="694"/>
                                         <color key="backgroundColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" priority="250" constant="200" id="Kyf-B3-ATW"/>
-                                            <constraint firstAttribute="width" priority="250" constant="200" id="dvn-7b-BEm"/>
+                                            <constraint firstAttribute="height" priority="250" constant="400" id="Kyf-B3-ATW"/>
+                                            <constraint firstAttribute="width" priority="250" constant="400" id="dvn-7b-BEm"/>
                                         </constraints>
                                     </scrollView>
                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ysn-5S-jfS">

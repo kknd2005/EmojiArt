@@ -81,6 +81,7 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
             scrollView.minimumZoomScale = 0.1
             scrollView.maximumZoomScale = 5.0
             scrollView.addSubview(emojiArtView)
+            emojiArtView.bounds = scrollView.bounds
         }
     }
     

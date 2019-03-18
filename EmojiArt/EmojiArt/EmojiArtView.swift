@@ -56,7 +56,9 @@ class EmojiArtView: UIView , UIDropInteractionDelegate{
         newLabel.attributedText = string
         newLabel.sizeToFit()
         newLabel.center = centered
+        addEmojiArtGestureRecongizers(to: newLabel)
         addSubview(newLabel)
+        //TODO: add gesture recongizer
     }
     //test test
     
