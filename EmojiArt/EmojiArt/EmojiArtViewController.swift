@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate,UICollectionViewDropDelegate {
+class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate,UICollectionViewDropDelegate , UICollectionViewDelegateFlowLayout{
 
 
     
@@ -140,9 +140,28 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         }
     }
 
+    //MARK: - adding emoji & text field
+    @IBAction func addButtonPressed() {
+        addingEmoji = true
+        emojiCollectionView.reloadSections(IndexSet(integer: 0))
+    }
+    
+    private var addingEmoji = false
+
+    //MARK: - set size of textFieldCell (UICollectionViewDelegateFlowLayout)
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if addingEmoji && indexPath.section == 0{
+            return CGSize(width: 300, height: 80)
+        }else{
+            return CGSize(width: 80, height: 80)
+        }
+    }
+    
     //MARK: - collection view
     
     var emojis = "🐱🐶🐭🐹🐰🐸🐣🐤🐝🐚🦋🦑🐙🦕🐳🐠🦈🦒".map{String($0)}
+    
     
     @IBOutlet weak var emojiCollectionView: UICollectionView!{
         didSet{
@@ -155,9 +174,7 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return emojis.count
-    }
+
     
     private var fontSize:CGFloat = 56
     
@@ -175,14 +192,40 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCell", for: indexPath)
-        
-        if let emojiCell = cell as? EmojiCollectionViewCell{
-            let text = NSAttributedString(string: emojis[indexPath.row], attributes: [.font:font])
-            emojiCell.emoji.attributedText = text
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch section{
+        case 0:
+            return 1
+        case 1:
+            return emojis.count
+        default:
+            return 0
         }
-        return cell
+        // return emojis.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if indexPath.section == 1{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCell", for: indexPath)
+            
+            if let emojiCell = cell as? EmojiCollectionViewCell{
+                let text = NSAttributedString(string: emojis[indexPath.row], attributes: [.font:font])
+                emojiCell.emoji.attributedText = text
+            }
+            return cell
+        }else if addingEmoji{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "textField", for: indexPath)
+            return cell
+        }else{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "addButton", for: indexPath)
+            return cell
+        }
+
     }
     
     //MARK: - collectionView drag
