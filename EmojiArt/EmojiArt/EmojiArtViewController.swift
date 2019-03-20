@@ -8,6 +8,19 @@
 
 import UIKit
 
+//extent EmojiArt.EmojiInfo here becase this is not a model thing, this is an UI thing
+extension EmojiArt.EmojiInfo{
+    init?(label: UILabel){
+        if let attributedString = label.attributedText{
+            x = Int(label.center.x)
+            y = Int(label.center.y)
+            text = attributedString.string
+            size = 64//TODO: how to get font from attributedString?
+        }
+        return nil
+    }
+}
+
 class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate,UICollectionViewDropDelegate , UICollectionViewDelegateFlowLayout{
 
 
@@ -97,6 +110,7 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     
     private var _emojiArtBackgroundImageURL: URL? //underbar implys that this is a background var setted by someone else
     
+    //we want to keep these vars setted together
     var emojiArtBackgroundImage: (url:URL?,image:UIImage?){
         get{
             return (_emojiArtBackgroundImageURL,emojiArtView.backgroundImage)
@@ -225,6 +239,7 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
             
             if let emojiCell = cell as? EmojiCollectionViewCell{
                 let text = NSAttributedString(string: emojis[indexPath.row], attributes: [.font:font])
+                
                 emojiCell.emoji.attributedText = text
             }
             return cell
