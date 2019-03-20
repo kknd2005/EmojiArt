@@ -158,6 +158,13 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         }
     }
     
+    //MARK: - becomeFirstResponder when textField shows up
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let inputCell = cell as? AddEmojiTextFieldCollectionViewCell{
+            inputCell.emojiTextField.becomeFirstResponder()
+        }
+    }
+    
     //MARK: - collection view
     
     var emojis = "🐱🐶🐭🐹🐰🐸🐣🐤🐝🐚🦋🦑🐙🦕🐳🐠🦈🦒".map{String($0)}
@@ -218,10 +225,26 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
                 emojiCell.emoji.attributedText = text
             }
             return cell
-        }else if addingEmoji{
+        }else if addingEmoji{ //show TextFieldCell
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "textField", for: indexPath)
+            
+            //setup the recall function in textField
+            if let textFieldCell = cell as? AddEmojiTextFieldCollectionViewCell{
+                textFieldCell.resginationHander = { [weak self, unowned textFieldCell] in //break the memory loop
+                    //1. update emojis
+                    if let text = textFieldCell.emojiTextField.text{
+                        self?.emojis = text.map{String($0)} + self!.emojis //put new emojis at the front
+                    }
+                    
+                    //2. update collectionView
+                    self?.emojiCollectionView.reloadData()
+                    
+                    //3. set addingEmoji = false (let UI change back to add button)
+                    self?.addingEmoji = false
+                }
+            }
             return cell
-        }else{
+        }else{ //show Add button
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "addButton", for: indexPath)
             return cell
         }
@@ -255,9 +278,15 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     }
     
     func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
-        let isSelf = (session.localDragSession?.localContext as? UICollectionViewCell) == collectionView
-        //different than View, becase collectionView needs to know how to add the dragItems into itself
-        return UICollectionViewDropProposal(operation: isSelf ? .move : .copy, intent: .insertAtDestinationIndexPath)
+        //if trying to drop in the section of emojis
+        if destinationIndexPath?.section == 1{
+            let isSelf = (session.localDragSession?.localContext as? UICollectionViewCell) == collectionView
+            //different than View, becase collectionView needs to know how to add the dragItems into itself
+            return UICollectionViewDropProposal(operation: isSelf ? .move : .copy, intent: .insertAtDestinationIndexPath)
+        }else{
+            //if trying to drop in the add textField section, cancel the dropping action,or else it's gonna crash
+            return UICollectionViewDropProposal(operation:.cancel)
+        }
     }
     
 //    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {

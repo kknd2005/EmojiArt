@@ -172,7 +172,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TAj-Pt-C2h">
-                                                    <rect key="frame" x="24.5" y="11" width="31" height="58"/>
+                                                    <rect key="frame" x="0.0" y="11" width="80" height="58"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="45"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -180,6 +180,7 @@
                                             </subviews>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="TAj-Pt-C2h" firstAttribute="width" secondItem="fXw-5B-CDH" secondAttribute="width" id="QqU-cm-tqU"/>
                                             <constraint firstItem="TAj-Pt-C2h" firstAttribute="centerX" secondItem="fXw-5B-CDH" secondAttribute="centerX" id="h3B-Tb-Iia"/>
                                             <constraint firstItem="TAj-Pt-C2h" firstAttribute="centerY" secondItem="fXw-5B-CDH" secondAttribute="centerY" id="qed-ie-Mo9"/>
                                         </constraints>
