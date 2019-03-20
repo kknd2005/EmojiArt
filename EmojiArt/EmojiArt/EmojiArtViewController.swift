@@ -48,7 +48,7 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
                     DispatchQueue.main.async {
                         print("got image")
                         print(image)
-                        self.emojiArtBackgroundImage = image
+                        self.emojiArtBackgroundImage = (url,image)
                     }
                 })
             }
@@ -95,14 +95,17 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         scrollViewHeight.constant = scrollView.contentSize.height
     }
     
-    var emojiArtBackgroundImage: UIImage?{
+    private var _emojiArtBackgroundImageURL: URL? //underbar implys that this is a background var setted by someone else
+    
+    var emojiArtBackgroundImage: (url:URL?,image:UIImage?){
         get{
-            return emojiArtView.backgroundImage
+            return (_emojiArtBackgroundImageURL,emojiArtView.backgroundImage)
         }
         set{
+            _emojiArtBackgroundImageURL = newValue.url
             scrollView?.zoomScale = 1
-            emojiArtView.backgroundImage = newValue
-            let size = newValue?.size ?? CGSize.zero
+            emojiArtView.backgroundImage = newValue.image
+            let size = newValue.image?.size ?? CGSize.zero
             emojiArtView.frame = CGRect(origin: CGPoint.zero, size: size)
             scrollView?.contentSize = size
             //update the size of the scrollView
@@ -354,4 +357,7 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         }
 
     }
+    
+    //MARK: - model
+    var emojiArt: EmojiArt?
 }
