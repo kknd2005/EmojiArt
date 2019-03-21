@@ -50,6 +50,12 @@ class EmojiArtView: UIView , UIDropInteractionDelegate{
         }
     }
     
+    //called by controller to create labels from model
+    func createLabel(with emojiInfo: EmojiArt.EmojiInfo){
+        let attributedString = emojiInfo.text.attributedString(withTextStyle: .body, ofSize: CGFloat(emojiInfo.size))
+        createLabel(withAttributedString: attributedString, at: CGPoint(x: emojiInfo.x, y: emojiInfo.y))
+    }
+    
     //add new emoji to emojiArtView
     func createLabel(withAttributedString string:NSAttributedString, at centered:CGPoint){
         let newLabel = UILabel()

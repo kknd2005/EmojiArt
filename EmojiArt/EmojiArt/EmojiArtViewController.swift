@@ -10,6 +10,8 @@ import UIKit
 
 //extent EmojiArt.EmojiInfo here becase this is not a model thing, this is an UI thing
 extension EmojiArt.EmojiInfo{
+    
+    //failable init
     init?(label: UILabel){
         if let attributedString = label.attributedText{
             x = Int(label.center.x)
@@ -23,9 +25,43 @@ extension EmojiArt.EmojiInfo{
 
 class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate,UICollectionViewDropDelegate , UICollectionViewDelegateFlowLayout{
 
-
-    
-
+    //MARK: - model
+    var emojiArt: EmojiArt?{
+        //generate the model from background and labels in emojiArtView
+        get{
+            if let url = emojiArtBackgroundImage.url{
+                //flatMap would return nil values(compactMap is the newVer of flatMap)
+                //get [emojiInfo] from emojiArtView
+                let emojis = emojiArtView.subviews.compactMap{$0 as? UILabel}.compactMap{EmojiArt.EmojiInfo(label: $0)}
+                return EmojiArt(url: url, emojis: emojis)
+            }
+            return nil
+        }
+        //everytime we set the model, clean emojiArt and create the background and labels from the model
+        set{
+            //1. clean the EmojiArtView
+            emojiArtBackgroundImage = (nil,nil) //remove background & URL
+            emojiArtView.subviews.compactMap{$0 as? UILabel}.forEach{$0.removeFromSuperview()} //ask labels to remove themselves
+            
+            //2. fetch data
+            if let url = newValue?.URL{
+                fetch(url: url, handler: { image in
+                    DispatchQueue.main.async {
+                        //3. set emojiArtBackgroundImage
+                        self.emojiArtBackgroundImage = (url,image)
+                        //4. go thought every emojiInfo
+                        newValue?.emojis.forEach {emojiInfo in
+                            //5. ask emojiArtView to add label
+                            self.emojiArtView.createLabel(with: emojiInfo)
+                        }
+                    }
+                })
+            }
+           
+            
+            
+        }
+    }
     
 
     //MARK: - drop interaction for Drop View
@@ -143,11 +179,11 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
             
             if let data = try? Data(contentsOf: url){
                 if self != nil{ //check if I am still in the heap?
-                    if let image = UIImage(data: data){
-                        handler(image)
+                    if let image = UIImage(data: data){// if the data is an image
+                        handler(image) //call the handler
                     }
                     DispatchQueue.main.async {
-                        self?.ImageFetchingActivityIndicator.stopAnimating()
+                        self?.ImageFetchingActivityIndicator.stopAnimating()//stop indicator animation
                     }
                 }else{
                     //igroning result case I'm not in the heap ever.
@@ -373,6 +409,6 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
 
     }
     
-    //MARK: - model
-    var emojiArt: EmojiArt?
+
+    
 }
