@@ -18,8 +18,10 @@ extension EmojiArt.EmojiInfo{
             y = Int(label.center.y)
             text = attributedString.string
             size = 64//TODO: how to get font from attributedString?
+        }else{
+            return nil
         }
-        return nil
+
     }
 }
 
