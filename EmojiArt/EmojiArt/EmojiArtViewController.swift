@@ -64,6 +64,16 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     }
     
 
+    @IBAction func saveButtonPressed() {
+        print("try to save...")
+        if let json = emojiArt?.json{
+            if let jsonString = String.init(data: json, encoding: .utf8){
+                print(jsonString)
+            }
+        }
+    }
+    
+
     //MARK: - drop interaction for Drop View
     
     @IBOutlet var dropView: UIView!{
