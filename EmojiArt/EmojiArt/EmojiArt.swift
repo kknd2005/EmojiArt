@@ -21,6 +21,11 @@ struct EmojiArt: Codable { //make it codable so it could be complied to JSON
         let size: Int
     }
     
+    //this is now a store value, so it would have to be Codable
+    var json: Data?{
+        return try? JSONEncoder().encode(self) //return json from myself
+    }
+    
     init(url: URL, emojis: [EmojiInfo]) {
         self.URL = url
         self.emojis = emojis
