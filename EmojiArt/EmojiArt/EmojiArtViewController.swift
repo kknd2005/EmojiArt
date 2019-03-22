@@ -88,6 +88,21 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        //1.try to get the url
+        if let url =  try? FileManager.default.url(for: .documentDirectory,
+                                                   in: .userDomainMask,
+                                                   appropriateFor: nil,
+                                                   create: true).appendingPathComponent("untitled.json"){
+            //2.init document
+            emojiArtDocument = EmojiArtDocument.init(fileURL: url)
+            print("created document")
+            
+        }
+    }
+    
     @IBAction func save(_ sender: UIBarButtonItem? = nil) { //nilable argurment :)
             //tell the document to auto save
             emojiArtDocument?.emojiArt = emojiArt
@@ -96,9 +111,9 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
             }
     }
     
-    @IBAction func close(_ sender: Any) { 
+    @IBAction func close(_ sender: Any) {
         save() //nilable argurment :)
-        emojiArtDocument?.close()
+        emojiArtDocument?.close() //if you don't close the document, no change will be saved
     }
     
     //MARK: - drop interaction for Drop View
