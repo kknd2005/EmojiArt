@@ -65,30 +65,14 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         }
     }
     
+    var emojiArtDocument: EmojiArtDocument?
 
     @IBAction func saveButtonPressed() {
-        print("try to save...")
-        if let json = emojiArt?.json{
-//How to print out json
-//            if let jsonString = String.init(data: json, encoding: .utf8){
-//                print(jsonString)
-//            }
-            
-            //write json to sandbox
-            //1. try to get url
-            if let url = try? FileManager.default.url(for: .documentDirectory,
-                                                      in: .userDomainMask,
-                                                      appropriateFor: nil,
-                                                      create: true).appendingPathComponent("untitled.json"){
-                //2. try json.write
-                do{
-                    try json.write(to: url)
-                    print("saved sucessfully")
-                }catch let error{
-                    print("couldn't save: \(error)")
-                }
-            }
-            
+        
+        //tell the document to auto save
+        emojiArtDocument?.emojiArt = emojiArt
+        if emojiArt != nil{
+            emojiArtDocument?.updateChangeCount(.done)
         }
     }
     
@@ -281,21 +265,15 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
             collectionViewHeight.constant = 100.0
         }
         
-        //load json
-        //1. try to get url
-        if let url = try? FileManager.default.url(for: .documentDirectory,
-                                                  in: .userDomainMask,
-                                                  appropriateFor: nil,
-                                                  create: true).appendingPathComponent("untitled.json"){
-            //2. try to get data from json
-            if let data = try? Data.init(contentsOf: url){
-                //3. init emojiArt
-                emojiArt = EmojiArt.init(json: data)
-                if emojiArt != nil{
-                    print("loaded data")
-                }
+        //load from document
+        //1. open the document
+        emojiArtDocument?.open{success in
+            if success{
+                //2. get json from document
+                self.emojiArt = self.emojiArtDocument?.emojiArt
             }
         }
+        
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
