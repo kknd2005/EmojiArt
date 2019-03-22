@@ -88,20 +88,7 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        //1.try to get the url
-        if let url =  try? FileManager.default.url(for: .documentDirectory,
-                                                   in: .userDomainMask,
-                                                   appropriateFor: nil,
-                                                   create: true).appendingPathComponent("untitled.json"){
-            //2.init document
-            emojiArtDocument = EmojiArtDocument.init(fileURL: url)
-            print("created document")
-            
-        }
-    }
+
     
     @IBAction func save(_ sender: UIBarButtonItem? = nil) { //nilable argurment :)
             //tell the document to auto save

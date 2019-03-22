@@ -16,8 +16,19 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         
         delegate = self
         
-        allowsDocumentCreation = true
+        //allowsDocumentCreation = true
         allowsPickingMultipleItems = false
+        
+        //create a blank doc template
+        newDocTemplate = try? FileManager.default.url(for: .applicationSupportDirectory,
+                                             in: .userDomainMask,
+                                             appropriateFor: nil,
+                                             create: true).appendingPathComponent("untitled.json")
+        
+        if newDocTemplate != nil{ //if we got an URL, try to create a blank template
+            //create a file, if successed, let user being able to create new document. if didn't, we won't allow user to create that.
+            allowsDocumentCreation = FileManager.default.createFile(atPath: newDocTemplate!.path, contents: Data())
+        }
         
         // Update the style of the UIDocumentBrowserViewController
         // browserUserInterfaceStyle = .dark
@@ -28,19 +39,14 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         // Do any additional setup after loading the view, typically from a nib.
     }
     
+    //url for a blank emojiArtDocument template
+    var newDocTemplate: URL?
+    
     
     // MARK: UIDocumentBrowserViewControllerDelegate
-    
+    //ask for a blank document for documentCreation
     func documentBrowser(_ controller: UIDocumentBrowserViewController, didRequestDocumentCreationWithHandler importHandler: @escaping (URL?, UIDocumentBrowserViewController.ImportMode) -> Void) {
-        let newDocumentURL: URL? = nil
-        
-        // Set the URL for the new document here. Optionally, you can present a template chooser before calling the importHandler.
-        // Make sure the importHandler is always called, even if the user cancels the creation request.
-        if newDocumentURL != nil {
-            importHandler(newDocumentURL, .move)
-        } else {
-            importHandler(nil, .none)
-        }
+        importHandler(newDocTemplate,.copy) //type in the argurments according @secaping(...)
     }
     
     func documentBrowser(_ controller: UIDocumentBrowserViewController, didPickDocumentsAt documentURLs: [URL]) {
