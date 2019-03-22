@@ -96,7 +96,7 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
             }
     }
     
-    @IBAction func close(_ sender: Any) {
+    @IBAction func close(_ sender: Any) { 
         save() //nilable argurment :)
         emojiArtDocument?.close()
     }
