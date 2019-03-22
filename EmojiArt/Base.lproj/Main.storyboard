@@ -205,9 +205,14 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="nUf-Le-l45">
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="N7B-gG-jXY">
+                            <connections>
+                                <action selector="close:" destination="Z7a-G9-Igh" id="Kmp-4r-NRR"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="geP-MA-66N">
                             <connections>
-                                <action selector="saveButtonPressed" destination="Z7a-G9-Igh" id="92g-lz-aXn"/>
+                                <action selector="save:" destination="Z7a-G9-Igh" id="nfd-FB-cmi"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

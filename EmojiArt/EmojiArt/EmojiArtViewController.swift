@@ -67,16 +67,40 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     
     var emojiArtDocument: EmojiArtDocument?
 
-    @IBAction func saveButtonPressed() {
+    //load json from Document
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        //tell the document to auto save
-        emojiArtDocument?.emojiArt = emojiArt
-        if emojiArt != nil{
-            emojiArtDocument?.updateChangeCount(.done)
+         //for collectionView layout
+        collectionViewHeight.constant = fontSize * 1.6
+        if collectionViewHeight.constant < 100.0 {
+            collectionViewHeight.constant = 100.0
         }
+        
+        //load from document
+        //1. open the document
+        emojiArtDocument?.open{success in
+            if success{
+                //2. get json from document
+                self.emojiArt = self.emojiArtDocument?.emojiArt
+            }
+        }
+        
     }
     
-
+    @IBAction func save(_ sender: UIBarButtonItem? = nil) { //nilable argurment :)
+            //tell the document to auto save
+            emojiArtDocument?.emojiArt = emojiArt
+            if emojiArt != nil{
+                emojiArtDocument?.updateChangeCount(.done)
+            }
+    }
+    
+    @IBAction func close(_ sender: Any) {
+        save() //nilable argurment :)
+        emojiArtDocument?.close()
+    }
+    
     //MARK: - drop interaction for Drop View
     
     @IBOutlet var dropView: UIView!{
@@ -257,24 +281,7 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
     
-    //MARK: load json from Document
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        collectionViewHeight.constant = fontSize * 1.6
-        if collectionViewHeight.constant < 100.0 {
-            collectionViewHeight.constant = 100.0
-        }
-        
-        //load from document
-        //1. open the document
-        emojiArtDocument?.open{success in
-            if success{
-                //2. get json from document
-                self.emojiArt = self.emojiArtDocument?.emojiArt
-            }
-        }
-        
-    }
+
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
