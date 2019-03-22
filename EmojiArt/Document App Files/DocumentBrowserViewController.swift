@@ -49,6 +49,7 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         importHandler(newDocTemplate,.copy) //type in the argurments according @secaping(...)
     }
     
+    //MARK: - present emojiArtView when a document is picked
     func documentBrowser(_ controller: UIDocumentBrowserViewController, didPickDocumentsAt documentURLs: [URL]) {
         guard let sourceURL = documentURLs.first else { return }
         
@@ -57,6 +58,7 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         presentDocument(at: sourceURL)
     }
     
+    //MARK: - the same as above
     func documentBrowser(_ controller: UIDocumentBrowserViewController, didImportDocumentAt sourceURL: URL, toDestinationURL destinationURL: URL) {
         // Present the Document View Controller for the new newly created document
         presentDocument(at: destinationURL)
@@ -64,17 +66,29 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
     
     func documentBrowser(_ controller: UIDocumentBrowserViewController, failedToImportDocumentAt documentURL: URL, error: Error?) {
         // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
+        //TODO: -  put an alerm here when you know how to
     }
     
     // MARK: Document Presentation
     
     func presentDocument(at documentURL: URL) {
         
-//        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil) //this is the main storyBoard, we ask it for the VC we want.
+        let documentVC = storyBoard.instantiateViewController(withIdentifier: "DocumentVC") //we are not getting emojiArtView, we get NavgationViewController instead
+        
+        let emojiArtNavgationVC = documentVC as! UINavigationController
+        //configer emojiArtVC
+        if let emojiArtVC = emojiArtNavgationVC.visibleViewController as? EmojiArtViewController{
+            emojiArtVC.emojiArtDocument = EmojiArtDocument(fileURL: documentURL )
+        }
+        
+        present(documentVC,animated: true)
+
+        
+        
 //        let documentViewController = storyBoard.instantiateViewController(withIdentifier: "DocumentViewController") as! DocumentViewController
 //        documentViewController.document = Document(fileURL: documentURL)
 //
-      //  present(documentViewController, animated: true, completion: nil)
     }
 }
 
