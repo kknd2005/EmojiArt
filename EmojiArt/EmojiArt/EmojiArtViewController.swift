@@ -69,9 +69,26 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     @IBAction func saveButtonPressed() {
         print("try to save...")
         if let json = emojiArt?.json{
-            if let jsonString = String.init(data: json, encoding: .utf8){
-                print(jsonString)
+//How to print out json
+//            if let jsonString = String.init(data: json, encoding: .utf8){
+//                print(jsonString)
+//            }
+            
+            //write json to sandbox
+            //1. try to get url
+            if let url = try? FileManager.default.url(for: .documentDirectory,
+                                                      in: .userDomainMask,
+                                                      appropriateFor: nil,
+                                                      create: true).appendingPathComponent("untitled.json"){
+                //2. try json.write
+                do{
+                    try json.write(to: url)
+                    print("saved sucessfully")
+                }catch let error{
+                    print("couldn't save: \(error)")
+                }
             }
+            
         }
     }
     
@@ -256,11 +273,28 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
     
+    //MARK: load json from Document
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         collectionViewHeight.constant = fontSize * 1.6
         if collectionViewHeight.constant < 100.0 {
             collectionViewHeight.constant = 100.0
+        }
+        
+        //load json
+        //1. try to get url
+        if let url = try? FileManager.default.url(for: .documentDirectory,
+                                                  in: .userDomainMask,
+                                                  appropriateFor: nil,
+                                                  create: true).appendingPathComponent("untitled.json"){
+            //2. try to get data from json
+            if let data = try? Data.init(contentsOf: url){
+                //3. init emojiArt
+                emojiArt = EmojiArt.init(json: data)
+                if emojiArt != nil{
+                    print("loaded data")
+                }
+            }
         }
     }
     
