@@ -276,10 +276,10 @@
             </objects>
             <point key="canvasLocation" x="215" y="-1122"/>
         </scene>
-        <!--DocumentVC-->
+        <!--Navigation Controller-->
         <scene sceneID="Zeg-BJ-mod">
             <objects>
-                <navigationController title="DocumentVC" automaticallyAdjustsScrollViewInsets="NO" id="gcY-ns-2Lb" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="DocumentVC" automaticallyAdjustsScrollViewInsets="NO" id="gcY-ns-2Lb" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Gw0-x1-xEd">
                         <rect key="frame" x="0.0" y="20" width="1112" height="50"/>

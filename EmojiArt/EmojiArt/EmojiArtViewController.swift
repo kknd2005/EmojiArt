@@ -82,6 +82,7 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         emojiArtDocument?.open{success in
             if success{
                 //2. get json from document
+                self.title = self.emojiArtDocument?.localizedName
                 self.emojiArt = self.emojiArtDocument?.emojiArt
             }
         }
@@ -95,12 +96,14 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
             emojiArtDocument?.emojiArt = emojiArt
             if emojiArt != nil{
                 emojiArtDocument?.updateChangeCount(.done)
+                print("saved successfully")
             }
     }
     
     @IBAction func close(_ sender: Any) {
         save() //nilable argurment :)
         emojiArtDocument?.close() //if you don't close the document, no change will be saved
+        print("Document closed")
     }
     
     //MARK: - drop interaction for Drop View
