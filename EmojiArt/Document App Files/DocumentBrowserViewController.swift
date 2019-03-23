@@ -19,15 +19,18 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         //allowsDocumentCreation = true
         allowsPickingMultipleItems = false
         
-        //create a blank doc template
-        newDocTemplate = try? FileManager.default.url(for: .applicationSupportDirectory,
-                                             in: .userDomainMask,
-                                             appropriateFor: nil,
-                                             create: true).appendingPathComponent("untitled.json")
         
-        if newDocTemplate != nil{ //if we got an URL, try to create a blank template
-            //create a file, if successed, let user being able to create new document. if didn't, we won't allow user to create that.
-            allowsDocumentCreation = FileManager.default.createFile(atPath: newDocTemplate!.path, contents: Data())
+        if UIDevice.current.userInterfaceIdiom == .pad{ //check wether it's an iPad, if not, don't allow the user to create new document
+            //create a blank doc template
+            newDocTemplate = try? FileManager.default.url(for: .applicationSupportDirectory,
+                                                          in: .userDomainMask,
+                                                          appropriateFor: nil,
+                                                          create: true).appendingPathComponent("untitled.json")
+            
+            if newDocTemplate != nil{ //if we got an URL, try to create a blank template
+                //create a file, if successed, let user being able to create new document. if didn't, we won't allow user to create that.
+                allowsDocumentCreation = FileManager.default.createFile(atPath: newDocTemplate!.path, contents: Data())
+            }
         }
         
         // Update the style of the UIDocumentBrowserViewController
