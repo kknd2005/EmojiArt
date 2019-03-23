@@ -11,7 +11,7 @@ import UIKit
 class EmojiArtDocument: UIDocument {
 
     var emojiArt: EmojiArt?
-    var thumbnail: UIImage? //store a snapshot for EmojiArtView, setted from the controller when closing a document
+    var thumbnail: UIImage? //store a snapshot for EmojiArtView, set from the controller when closing a document
     
     override func contents(forType typeName: String) throws -> Any {
         // Encode your document with an instance of NSData or NSFileWrapper
