@@ -102,8 +102,14 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     
     @IBAction func close(_ sender: Any) {
         save() //nilable argurment :)
-        emojiArtDocument?.close() //if you don't close the document, no change will be saved
-        print("Document closed")
+        dismiss(animated: true, completion: {
+            if self.emojiArtView != nil{
+                self.emojiArtDocument?.thumbnail = self.emojiArtView.snapshot //snapshot is made in an extention of UIView in Utilities.swift
+            }
+            self.emojiArtDocument?.close() //if you don't close the document, no change will be saved
+            print("Document closed")
+        })
+
     }
     
     //MARK: - drop interaction for Drop View
