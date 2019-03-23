@@ -25,7 +25,29 @@ extension EmojiArt.EmojiInfo{
     }
 }
 
-class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate,UICollectionViewDropDelegate , UICollectionViewDelegateFlowLayout{
+class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate,UICollectionViewDropDelegate , UICollectionViewDelegateFlowLayout, EmojiArtViewDelegate{
+
+    
+    // MODIFIED AFTER LECTURE 14
+    // we no longer need a save method or button
+    // because now we are the EmojiArtView's delegate
+    // (search for "delegate = self" below)
+    // and we get notified when the EmojiArtView changes
+    // (we also note when a new image is dropped, search "documentChanged" below)
+    // and so we can just update our UIDocument's Model to match ours
+    // and tell our UIDocument that it has changed
+    // and it will autosave at the next opportune moment
+    
+    //MARK: - EmojiArtViewDelegate
+    
+    func emojiArtViewDidChange(_ sender: EmojiArtView) {
+        //tell the document to save
+        emojiArtDocument?.emojiArt = emojiArt
+        if emojiArt != nil{
+            emojiArtDocument?.updateChangeCount(.done)
+            print("auto saved successfully")
+        }
+    }
 
     //MARK: - model
     var emojiArt: EmojiArt?{
@@ -90,18 +112,30 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     }
     
 
-    
-    @IBAction func save(_ sender: UIBarButtonItem? = nil) { //nilable argurment :)
-            //tell the document to auto save
-            emojiArtDocument?.emojiArt = emojiArt
-            if emojiArt != nil{
-                emojiArtDocument?.updateChangeCount(.done)
-                print("saved successfully")
-            }
-    }
+    //we don't need this since we have signed up delegate in emojiArtView
+//    @IBAction func save(_ sender: UIBarButtonItem? = nil) { //nilable argurment :)
+//            //tell the document to auto save
+//            emojiArtDocument?.emojiArt = emojiArt
+//            if emojiArt != nil{
+//                emojiArtDocument?.updateChangeCount(.done)
+//                print("saved successfully")
+//            }
+//    }
     
     @IBAction func close(_ sender: Any) {
-        save() //nilable argurment :)
+        // MODIFIED AFTER LECTURE 14
+        // the call to save() that used to be here has been removed
+        // because we no longer explicitly save our document
+        // we just mark that it has been changed
+        // and since we are reliably doing that now
+        // we don't need to try to save it when we close it
+        // UIDocument will automatically autosave when we close()
+        // if it has any unsaved changes
+        // the rest of this method is unchanged from lecture 14
+        
+        //we don't save since we had made our model autosaved
+        //save() //nilable argurment :)
+        
         if emojiArt != nil{ //make sure the model != nil
             emojiArtDocument?.thumbnail = emojiArtView.snapshot //snapshot is made in an extention of UIView in Utilities.swift
         }
@@ -169,7 +203,14 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     
     //MARK: - scrollView setup
     
-    var emojiArtView = EmojiArtView()
+    // MODIFIED AFTER LECTURE 14
+    // when we create our EmojiArtView, we also set ourself as its delegate
+    // so that we can get emojiArtViewDidChange messages sent to us
+    lazy var emojiArtView : EmojiArtView = {
+        let eav = EmojiArtView()
+        eav.delegate = self
+        return eav
+    }()
     
     @IBOutlet weak var scrollView: UIScrollView!{
         didSet{

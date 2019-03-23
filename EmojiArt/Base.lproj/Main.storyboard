@@ -210,11 +210,6 @@
                                 <action selector="close:" destination="Z7a-G9-Igh" id="Kmp-4r-NRR"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="geP-MA-66N">
-                            <connections>
-                                <action selector="save:" destination="Z7a-G9-Igh" id="nfd-FB-cmi"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
