@@ -41,6 +41,10 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     //MARK: - EmojiArtViewDelegate
     
     func emojiArtViewDidChange(_ sender: EmojiArtView) {
+        documentChanged() //this method is also called when we asign a new image to backgroundImage
+    }
+    
+    func documentChanged(){
         //tell the document to save
         emojiArtDocument?.emojiArt = emojiArt
         if emojiArt != nil{
@@ -173,16 +177,56 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         session.loadObjects(ofClass: NSURL.self) { urls in
             if let url = urls.first as? URL{
                 //self.imageFetcher?.fetch(url: url)
-                print(url)
-                self.fetch(url: url, handler: { image in
-                    DispatchQueue.main.async {
-                        print("got image")
-                        print(image)
-                        self.emojiArtBackgroundImage = (url,image)
+
+//Modeifed for using UIAlertView
+//                print(url)
+//                self.fetch(url: url, handler: { image in
+//                    DispatchQueue.main.async {
+//                        print("got image")
+//                        print(image)
+//                        self.emojiArtBackgroundImage = (url,image)
+//                    }
+//                })
+                
+                
+                //Added for UIAlertView
+                DispatchQueue.global(qos:.userInitiated).async{
+                    if let data = try? Data.init(contentsOf: url), let image = UIImage.init(data: data){
+                        DispatchQueue.main.sync {
+                            self.emojiArtBackgroundImage = (url,image)
+                            self.documentChanged() //save after sucessfully droped image
+                        }
+                    }else{
+                        self.presentBadURLWarning()
                     }
-                })
+                }
             }
            
+        }
+    }
+    
+    private var suppressBadWarnning = false
+    
+    //If failed on loading image, show an alertView
+    func presentBadURLWarning(){
+        if !suppressBadWarnning{
+            let alertView = UIAlertController(
+                title: "Load image failed",
+                message: "Couldn't drop image,\nDo you want to keep this warnning?",
+                preferredStyle: .alert)
+            
+            alertView.addAction(UIAlertAction(
+                title: "Keep Warnning Me",
+                style: .default))
+            
+            alertView.addAction(UIAlertAction(
+                title: "Stop Warnning Me",
+                style: .destructive,
+                handler: { (UIAlertAction) in
+                    self.suppressBadWarnning = true
+            }))
+            
+            present(alertView,animated: true)
         }
     }
     
