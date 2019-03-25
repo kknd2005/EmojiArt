@@ -99,6 +99,13 @@ class EmojiArtView: UIView , UIDropInteractionDelegate{
         createLabel(withAttributedString: attributedString, at: CGPoint(x: emojiInfo.x, y: emojiInfo.y))
     }
     
+    //we don't need to remove kvo when viewWillDisappear
+    //KVO will be removed from heap when emojiArtView disappear automaticly
+    //but what if we remove a label?
+    //we keep KVOs in a dict based on UIView(label)
+    //so that we can remove KVO when a label is going to be remove
+    private var KVO = [UIView:NSKeyValueObservation]()
+    
     //add new emoji to emojiArtView
     func createLabel(withAttributedString string:NSAttributedString, at centered:CGPoint){
         let newLabel = UILabel()
@@ -107,9 +114,23 @@ class EmojiArtView: UIView , UIDropInteractionDelegate{
         newLabel.center = centered
         addEmojiArtGestureRecongizers(to: newLabel)
         addSubview(newLabel)
-  
+        KVO[newLabel] = newLabel.observe(\.center, changeHandler: { (label, change) in
+            //nobody signed up this delegate for now, but we still keep this line of code
+            self.delegate?.emojiArtViewDidChange(self)
+            //boardcast on radio station
+            NotificationCenter.default.post(name: Notification.Name.EmojiArtViewDidChange, object: self)
+        })
     }
 
+    //when a label(subview) will be removed
+    //we check if this is a KVO needs to be removed as well
+    override func willRemoveSubview(_ subview: UIView) {
+        super.willRemoveSubview(subview)
+        
+        if KVO[subview] != nil{
+            KVO[subview] = nil
+        }
+    }
     
     //MARK: - backgroundImage
     var backgroundImage: UIImage?{
