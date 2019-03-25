@@ -93,6 +93,8 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     
     var emojiArtDocument: EmojiArtDocument?
 
+    var documentObserver: NSObjectProtocol? //the cookie for you to hold on to (NSNotifcation)
+    
     //load json from Document
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -102,6 +104,15 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         if collectionViewHeight.constant < 100.0 {
             collectionViewHeight.constant = 100.0
         }
+        
+        //add observer to a Radio Station
+        documentObserver = NotificationCenter.default.addObserver(
+            forName: UIDocument.stateChangedNotification, //changed since iOS 11
+            object: emojiArtDocument, //target
+            queue: OperationQueue.main, //define which queue we are going to excute on
+            using: { Notification in
+                print("emojiArtDocument state changed")
+        })
         
         //load from document
         //1. open the document
@@ -146,6 +157,11 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         dismiss(animated: true, completion: {
             self.emojiArtDocument?.close() //if you don't close the document, no change will be saved
             print("Document closed")
+            
+            //remove observer
+            if let observer = self.documentObserver{
+                NotificationCenter.default.removeObserver(observer)
+            }
         })
     }
     
