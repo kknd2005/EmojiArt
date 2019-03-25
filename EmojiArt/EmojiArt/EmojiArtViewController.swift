@@ -25,7 +25,7 @@ extension EmojiArt.EmojiInfo{
     }
 }
 
-class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate,UICollectionViewDropDelegate , UICollectionViewDelegateFlowLayout, EmojiArtViewDelegate{
+class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate,UICollectionViewDropDelegate , UICollectionViewDelegateFlowLayout{
 
     
     // MODIFIED AFTER LECTURE 14
@@ -37,12 +37,6 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     // and so we can just update our UIDocument's Model to match ours
     // and tell our UIDocument that it has changed
     // and it will autosave at the next opportune moment
-    
-    //MARK: - EmojiArtViewDelegate
-    
-    func emojiArtViewDidChange(_ sender: EmojiArtView) {
-        documentChanged() //this method is also called when we asign a new image to backgroundImage
-    }
     
     func documentChanged(){
         //tell the document to save
@@ -266,11 +260,7 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     // MODIFIED AFTER LECTURE 14
     // when we create our EmojiArtView, we also set ourself as its delegate
     // so that we can get emojiArtViewDidChange messages sent to us
-    lazy var emojiArtView : EmojiArtView = {
-        let eav = EmojiArtView()
-        eav.delegate = self
-        return eav
-    }()
+    lazy var emojiArtView = EmojiArtView()
     
     @IBOutlet weak var scrollView: UIScrollView!{
         didSet{
