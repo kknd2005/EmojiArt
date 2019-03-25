@@ -87,8 +87,7 @@ class EmojiArtView: UIView , UIDropInteractionDelegate{
                 self.createLabel(withAttributedString: string, at: dropLocation)
                 //4. send message to anyone that has signed up my delegation
                 self.delegate?.emojiArtViewDidChange(self) //still hold onto this, tough we don't use it anymore
-                ////add radio station 02: post on radio station
-                NotificationCenter.default.post(name: .EmojiArtViewDidChange, object: self)
+
 
             }
         }
@@ -108,9 +107,9 @@ class EmojiArtView: UIView , UIDropInteractionDelegate{
         newLabel.center = centered
         addEmojiArtGestureRecongizers(to: newLabel)
         addSubview(newLabel)
-        //TODO: add gesture recongizer
+  
     }
-    //test test
+
     
     //MARK: - backgroundImage
     var backgroundImage: UIImage?{
