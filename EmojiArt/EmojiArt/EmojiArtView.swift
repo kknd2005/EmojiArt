@@ -27,6 +27,12 @@ protocol EmojiArtViewDelegate: class {
     func emojiArtViewDidChange(_ sender:EmojiArtView)
 }
 
+//add radio station 01: add new name
+extension Notification.Name{
+    static let EmojiArtViewDidChange = Notification.Name(rawValue: "EmojiArtViewDidChange")
+}
+
+
 class EmojiArtView: UIView , UIDropInteractionDelegate{
 
     // MARK: - Delegation
@@ -80,7 +86,10 @@ class EmojiArtView: UIView , UIDropInteractionDelegate{
                 //3. create UILabel at location with NSAttritubedString
                 self.createLabel(withAttributedString: string, at: dropLocation)
                 //4. send message to anyone that has signed up my delegation
-                self.delegate?.emojiArtViewDidChange(self)
+                self.delegate?.emojiArtViewDidChange(self) //still hold onto this, tough we don't use it anymore
+                ////add radio station 02: post on radio station
+                NotificationCenter.default.post(name: .EmojiArtViewDidChange, object: self)
+
             }
         }
     }
