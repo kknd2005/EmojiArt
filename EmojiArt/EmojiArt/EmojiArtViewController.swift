@@ -80,15 +80,15 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
                     }
                 })
             }
-           
-            
-            
         }
     }
     
     var emojiArtDocument: EmojiArtDocument?
 
-    var documentObserver: NSObjectProtocol? //the cookie for you to hold on to (NSNotifcation)
+    //the cookies for you to hold on to,
+    //the only thing you do with those is to remove the observer when ViewWillDisappear or ViewDidDisappear
+    var documentObserver: NSObjectProtocol?
+    var emojiArtViewObserver: NSObjectProtocol?
     
     //load json from Document
     override func viewWillAppear(_ animated: Bool) {
@@ -107,6 +107,16 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
             queue: OperationQueue.main, //define which queue we are going to excute on
             using: { Notification in
                 print("emojiArtDocument state changed")
+        })
+        
+        //add emojiArtViewDidChange notfication
+        emojiArtViewObserver = NotificationCenter.default.addObserver(
+            forName: Notification.Name.EmojiArtViewDidChange,
+            object: emojiArtView,
+            queue: nil,
+            using: { Notification in
+                self.documentChanged()
+                print("got music from emojiArtViewDidChange radio station")
         })
         
         //load from document
@@ -152,6 +162,11 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         dismiss(animated: true, completion: {
             self.emojiArtDocument?.close() //if you don't close the document, no change will be saved
             print("Document closed")
+            
+            //remove observer
+            if let observer = self.emojiArtViewObserver{
+                NotificationCenter.default.removeObserver(observer)
+            }
             
             //remove observer
             if let observer = self.documentObserver{

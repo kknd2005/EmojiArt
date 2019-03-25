@@ -45,6 +45,9 @@ extension EmojiArtView{
         case .changed:
             recognizer.view?.center = recognizer.view!.center.offset(by: recognizer.translation(in: self))
             recognizer.setTranslation(CGPoint.zero, in: self)
+            
+            //boardcast on emojiArtViewDidChange radio station
+            NotificationCenter.default.post(name: .EmojiArtViewDidChange, object: self)
         case .ended:
             selectedView = nil
         default:
