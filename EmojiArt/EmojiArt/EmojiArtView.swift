@@ -87,7 +87,8 @@ class EmojiArtView: UIView , UIDropInteractionDelegate{
                 self.createLabel(withAttributedString: string, at: dropLocation)
                 //4. send message to anyone that has signed up my delegation
                 self.delegate?.emojiArtViewDidChange(self) //still hold onto this, tough we don't use it anymore
-
+                //post on radio station
+                NotificationCenter.default.post(name: Notification.Name.EmojiArtViewDidChange, object: self)
 
             }
         }
