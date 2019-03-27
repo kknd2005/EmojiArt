@@ -159,7 +159,7 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         if emojiArt != nil{ //make sure the model != nil
             emojiArtDocument?.thumbnail = emojiArtView.snapshot //snapshot is made in an extention of UIView in Utilities.swift
         }
-        dismiss(animated: true, completion: {
+        presentingViewController?.dismiss(animated: true, completion: {
             self.emojiArtDocument?.close() //if you don't close the document, no change will be saved
             print("Document closed")
             
