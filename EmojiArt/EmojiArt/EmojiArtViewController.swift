@@ -560,12 +560,6 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     }
     
     // MARK: - modal segue
-    //try to make modalVC hold on to this controller so we don't need to reload emojiArtView when return
-    //but I failed... this doesn't work for now...
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let testModalSegueController = segue.destination as? testModalSegueViewController{
-            testModalSegueController.parentVC = self
-        }
-    }
+
     
 }
