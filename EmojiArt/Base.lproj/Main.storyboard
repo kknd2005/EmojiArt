@@ -311,6 +311,7 @@
                         <outlet property="createdDate" destination="hut-pd-0Jt" id="ScM-Py-Ncl"/>
                         <outlet property="sizeLabel" destination="Lbi-X2-V0X" id="h3z-Iw-qHp"/>
                         <outlet property="thumbnailView" destination="ZoP-J6-vmc" id="S7b-YS-R18"/>
+                        <outlet property="thumbnailViewAspectRatio" destination="Prn-on-rOe" id="X5p-sf-ZiV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y2W-gV-lAm" userLabel="First Responder" sceneMemberID="firstResponder"/>

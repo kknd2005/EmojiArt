@@ -48,8 +48,13 @@ class EmojiDocumentInfoViewController: UIViewController {
             }
             
             //check if thumbnailView is ready, becase this could be called in prepare segue
-            if thumbnailView != nil, let thumbnail = document?.thumbnail{
+            if thumbnailView != nil, let thumbnail = document?.thumbnail, thumbnailViewAspectRatio != nil{
                 thumbnailView.image = thumbnail
+                
+                //remove old constraint
+                thumbnailView.removeConstraint(thumbnailViewAspectRatio)
+                //create a new constraint bease on thumbnail
+                
             }
         }
     }
@@ -66,4 +71,5 @@ class EmojiDocumentInfoViewController: UIViewController {
     @IBOutlet weak var createdDate: UILabel!
     @IBOutlet weak var thumbnailView: UIImageView!
     var thumbnailImage: UIImage?
+    @IBOutlet weak var thumbnailViewAspectRatio: NSLayoutConstraint!
 }
