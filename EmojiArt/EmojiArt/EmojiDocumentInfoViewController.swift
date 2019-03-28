@@ -46,6 +46,11 @@ class EmojiDocumentInfoViewController: UIViewController {
                     createdDate.text = shortDateFormatter.string(from: created)
                 }
             }
+            
+            //check if thumbnailView is ready, becase this could be called in prepare segue
+            if thumbnailView != nil, let thumbnail = document?.thumbnail{
+                thumbnailView.image = thumbnail
+            }
         }
     }
     
