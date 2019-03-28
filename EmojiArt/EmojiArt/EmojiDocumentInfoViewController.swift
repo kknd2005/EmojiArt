@@ -26,6 +26,14 @@ class EmojiDocumentInfoViewController: UIViewController {
 
     }
     
+    //the way we configer date formatter
+    private let shortDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        return dateFormatter
+    }()
+    
     func updateUI(){
         //this method could be call when these labels aren't ready, so we need to check in advance
         if sizeLabel != nil, createdDate != nil{
@@ -33,6 +41,10 @@ class EmojiDocumentInfoViewController: UIViewController {
             if let url = document?.fileURL,
                 let attributes = try? FileManager.default.attributesOfItem(atPath: url.path){
                 sizeLabel.text = "\(attributes[FileAttributeKey.size] ?? "unknown") bytes"
+                //get date and convert to string
+                if let created = attributes[.creationDate] as? Date{//this returns any, so don't forget to cast
+                    createdDate.text = shortDateFormatter.string(from: created)
+                }
             }
         }
     }
