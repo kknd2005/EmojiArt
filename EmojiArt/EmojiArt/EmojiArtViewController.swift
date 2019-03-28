@@ -561,5 +561,18 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     
     // MARK: - modal segue
 
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "show document info", let infoVC = segue.destination as? EmojiDocumentInfoViewController{
+            infoVC.document = emojiArtDocument
+            if let thumbNail = emojiArtView.snapshot{
+                //don't do this, crash will happen
+                //becase thumbnailView isn't ready when we do this
+                //thumbnailView is nil, and we try to unwrap this
+                //infoVC.thumbnailView.image = thumbNail
+                
+                //don't need to do this either, becase we've store thumbnail in the attributs of the document
+                infoVC.thumbnailImage = thumbNail
+            }
+        }
+    }
 }
