@@ -213,7 +213,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Inspect" id="A1K-mK-Qip">
                             <connections>
-                                <segue destination="Jh9-SH-K3O" kind="presentation" identifier="show document info" modalTransitionStyle="flipHorizontal" id="TpE-Nu-BU2"/>
+                                <segue destination="Jh9-SH-K3O" kind="presentation" identifier="show document info" modalPresentationStyle="formSheet" modalTransitionStyle="flipHorizontal" id="TpE-Nu-BU2"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -237,11 +237,11 @@
             <objects>
                 <viewController id="Jh9-SH-K3O" customClass="EmojiDocumentInfoViewController" customModule="EmojiArt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="AMk-w5-KDY">
-                        <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Z7T-u8-PY5">
-                                <rect key="frame" x="436" y="302" width="240" height="230"/>
+                                <rect key="frame" x="150" y="195" width="240" height="230"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZoP-J6-vmc">
                                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
