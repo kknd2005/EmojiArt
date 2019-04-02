@@ -211,11 +211,20 @@
                                 <action selector="close:" destination="Z7a-G9-Igh" id="Kmp-4r-NRR"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Inspect" id="A1K-mK-Qip">
-                            <connections>
-                                <segue destination="Jh9-SH-K3O" kind="presentation" identifier="show document info" modalPresentationStyle="formSheet" modalTransitionStyle="flipHorizontal" id="TpE-Nu-BU2"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Pop" id="Er0-yv-I0J">
+                                <connections>
+                                    <segue destination="Jh9-SH-K3O" kind="popoverPresentation" identifier="show document info" popoverAnchorBarButtonItem="Er0-yv-I0J" id="hdn-HH-oCz">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Inspect" id="A1K-mK-Qip">
+                                <connections>
+                                    <segue destination="Jh9-SH-K3O" kind="presentation" identifier="show document info" modalPresentationStyle="formSheet" modalTransitionStyle="flipHorizontal" id="TpE-Nu-BU2"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -237,11 +246,11 @@
             <objects>
                 <viewController id="Jh9-SH-K3O" customClass="EmojiDocumentInfoViewController" customModule="EmojiArt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="AMk-w5-KDY">
-                        <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Z7T-u8-PY5">
-                                <rect key="frame" x="150" y="195" width="240" height="230"/>
+                                <rect key="frame" x="67.5" y="218.5" width="240" height="230"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZoP-J6-vmc">
                                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
@@ -316,7 +325,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y2W-gV-lAm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1677.5179856115108" y="46.762589928057558"/>
+            <point key="canvasLocation" x="1699" y="-218"/>
         </scene>
         <!--Document Browser View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -382,4 +391,7 @@
             <point key="canvasLocation" x="240.64748201438849" y="-322.30215827338134"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="hdn-HH-oCz"/>
+    </inferredMetricsTieBreakers>
 </document>
