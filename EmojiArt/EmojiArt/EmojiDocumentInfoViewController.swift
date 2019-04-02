@@ -67,6 +67,16 @@ class EmojiDocumentInfoViewController: UIViewController {
                 thumbnailView.addConstraint(thumbnailViewAspectRatio)
                 
             }
+            
+            //first time to see syntax like this.
+            //Am I being presented as a Pop out?
+            if presentationController is UIPopoverPresentationController{
+                //hide thumbNail and button, set background color to clear
+                //On iphone, this pop over view will be black becase the background is clear
+                thumbnailView.isHidden = true
+                returnButton.isHidden = true
+                view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            }
         }
     }
     
@@ -94,6 +104,8 @@ class EmojiDocumentInfoViewController: UIViewController {
         }
     }
     
+
+    @IBOutlet weak var returnButton: UIButton!
     @IBOutlet weak var contentStackView: UIStackView!
     @IBOutlet weak var sizeLabel: UILabel!
     @IBOutlet weak var createdDate: UILabel!

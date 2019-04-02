@@ -214,14 +214,14 @@
                         <rightBarButtonItems>
                             <barButtonItem title="Pop" id="Er0-yv-I0J">
                                 <connections>
-                                    <segue destination="Jh9-SH-K3O" kind="popoverPresentation" identifier="show document info" popoverAnchorBarButtonItem="Er0-yv-I0J" id="hdn-HH-oCz">
+                                    <segue destination="Jh9-SH-K3O" kind="popoverPresentation" identifier="show document info" animates="NO" popoverAnchorBarButtonItem="Er0-yv-I0J" id="hdn-HH-oCz">
                                         <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                     </segue>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="Inspect" id="A1K-mK-Qip">
                                 <connections>
-                                    <segue destination="Jh9-SH-K3O" kind="presentation" identifier="show document info" modalPresentationStyle="formSheet" modalTransitionStyle="flipHorizontal" id="TpE-Nu-BU2"/>
+                                    <segue destination="Jh9-SH-K3O" kind="presentation" identifier="show document info" modalPresentationStyle="formSheet" id="TpE-Nu-BU2"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -246,11 +246,11 @@
             <objects>
                 <viewController id="Jh9-SH-K3O" customClass="EmojiDocumentInfoViewController" customModule="EmojiArt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="AMk-w5-KDY">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Z7T-u8-PY5">
-                                <rect key="frame" x="67.5" y="218.5" width="240" height="230"/>
+                                <rect key="frame" x="150" y="195" width="240" height="230"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZoP-J6-vmc">
                                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
@@ -319,6 +319,7 @@
                     <connections>
                         <outlet property="contentStackView" destination="Z7T-u8-PY5" id="Wfh-W2-jGE"/>
                         <outlet property="createdDate" destination="hut-pd-0Jt" id="ScM-Py-Ncl"/>
+                        <outlet property="returnButton" destination="Snd-bY-ZSg" id="gkR-n3-XSC"/>
                         <outlet property="sizeLabel" destination="Lbi-X2-V0X" id="h3z-Iw-qHp"/>
                         <outlet property="thumbnailView" destination="ZoP-J6-vmc" id="S7b-YS-R18"/>
                         <outlet property="thumbnailViewAspectRatio" destination="Prn-on-rOe" id="X5p-sf-ZiV"/>
@@ -393,6 +394,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="hdn-HH-oCz"/>
+        <segue reference="TpE-Nu-BU2"/>
     </inferredMetricsTieBreakers>
 </document>
