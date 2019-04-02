@@ -317,6 +317,7 @@
                         <viewLayoutGuide key="safeArea" id="bQW-Ld-Rna"/>
                     </view>
                     <connections>
+                        <outlet property="contentStackView" destination="Z7T-u8-PY5" id="Wfh-W2-jGE"/>
                         <outlet property="createdDate" destination="hut-pd-0Jt" id="ScM-Py-Ncl"/>
                         <outlet property="sizeLabel" destination="Lbi-X2-V0X" id="h3z-Iw-qHp"/>
                         <outlet property="thumbnailView" destination="ZoP-J6-vmc" id="S7b-YS-R18"/>

@@ -78,6 +78,23 @@ class EmojiDocumentInfoViewController: UIViewController {
         presentingViewController?.dismiss(animated: true)
     }
     
+    
+    //MARK: - Pop over size adpation
+    
+    //this method is called when all geometry is set
+    //which is a good place for you to adjust any of them
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        //get the smallest possible size that fits the view
+        if let fittedSize = contentStackView?.sizeThatFits(UIView.layoutFittingCompressedSize){
+            let gap : CGFloat = 30.0
+            
+            //setup content size of this view itself
+            preferredContentSize = CGSize(width: fittedSize.width + gap , height: fittedSize.height + gap)
+        }
+    }
+    
+    @IBOutlet weak var contentStackView: UIStackView!
     @IBOutlet weak var sizeLabel: UILabel!
     @IBOutlet weak var createdDate: UILabel!
     @IBOutlet weak var thumbnailView: UIImageView!
