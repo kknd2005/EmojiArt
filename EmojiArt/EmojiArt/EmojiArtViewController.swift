@@ -142,7 +142,7 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
 //            }
 //    }
     
-    @IBAction func close(_ sender: Any) {
+    @IBAction func close(_ sender: Any? = nil) {
         // MODIFIED AFTER LECTURE 14
         // the call to save() that used to be here has been removed
         // because we no longer explicitly save our document
@@ -591,5 +591,14 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     //optational method from UIPopoverPresentationControllerDelegate
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none //not to adaptive on iPhone
+    }
+    
+    
+    //MARK: - Unwind segue
+    //used to close the doucment with checking twice (close the info view then close done button)
+    @IBAction func close(bySegue: UIStoryboardSegue){
+        close()
+        //we could talk to the VC the cases this segue like below
+        //bySegue.source...
     }
 }
