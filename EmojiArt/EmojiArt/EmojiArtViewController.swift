@@ -26,7 +26,7 @@ extension EmojiArt.EmojiInfo{
 }
 
 
-class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate,UICollectionViewDropDelegate , UICollectionViewDelegateFlowLayout{
+class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate,UICollectionViewDropDelegate , UICollectionViewDelegateFlowLayout, UIPopoverPresentationControllerDelegate{
 
     
     // MODIFIED AFTER LECTURE 14
@@ -577,6 +577,19 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
                 //don't need to do this either, becase we've store thumbnail in the attributs of the document
                 infoVC.thumbnailImage = thumbNail
             }
+            
+            //try to get pop over prsentation controller
+            //I havn't verfied these line of code...
+            if let navgationController = segue.destination.navigationController,
+                let destation = navgationController.presentedViewController as? EmojiDocumentInfoViewController,
+                let ppc = destation.popoverPresentationController{
+                ppc.delegate = self
+            }
         }
+    }
+    
+    //optational method from UIPopoverPresentationControllerDelegate
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none //not to adaptive on iPhone
     }
 }
