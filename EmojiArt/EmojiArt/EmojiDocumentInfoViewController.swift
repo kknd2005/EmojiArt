@@ -22,7 +22,7 @@ class EmojiDocumentInfoViewController: UIViewController {
         updateUI()
         
         //don't need to do this
-        thumbnailView.image = thumbnailImage
+        //thumbnailView.image = thumbnailImage
 
     }
     
@@ -45,6 +45,7 @@ class EmojiDocumentInfoViewController: UIViewController {
                 if let created = attributes[.creationDate] as? Date{//this returns any, so don't forget to cast
                     createdDate.text = shortDateFormatter.string(from: created)
                 }
+                print("size and created date lables up to date")
             }
             
             //check if thumbnailView is ready, becase this could be called in prepare segue

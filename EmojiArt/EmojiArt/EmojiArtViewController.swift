@@ -45,6 +45,9 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         if emojiArt != nil{
             emojiArtDocument?.updateChangeCount(.done)
             print("auto saved successfully")
+           // embededDocumentInfoViewController?.document = emojiArtDocument
+            //autosave won't happen immediately, we need to wait for a little longer before the labels get upto date
+            embededDocumentInfoViewController?.updateUI()
         }
     }
 
@@ -580,11 +583,18 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
             
             //try to get pop over prsentation controller
             //I havn't verfied these line of code...
+            //becase it was written for iPhone
             if let navgationController = segue.destination.navigationController,
                 let destation = navgationController.presentedViewController as? EmojiDocumentInfoViewController,
                 let ppc = destation.popoverPresentationController{
                 ppc.delegate = self
             }
+        }
+        
+        //for embeded segue
+        if segue.identifier == "embededDocInfo", let infoVC = segue.destination as? EmojiDocumentInfoViewController{
+            infoVC.document = emojiArtDocument
+            embededDocumentInfoViewController = infoVC
         }
     }
     
@@ -595,10 +605,18 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     
     
     //MARK: - Unwind segue
-    //used to close the doucment with checking twice (close the info view then close done button)
+    //used to close the doucment without checking twice (close the info view then close done button)
     @IBAction func close(bySegue: UIStoryboardSegue){
         close()
         //we could talk to the VC the cases this segue like below
         //bySegue.source...
     }
+    
+    //MARK: - Contrainer View
+    
+    @IBOutlet weak var containerViewWidth: NSLayoutConstraint!
+    @IBOutlet weak var contrainerViewHeight: NSLayoutConstraint!
+    
+    weak var embededDocumentInfoViewController: EmojiDocumentInfoViewController?
+    
 }
