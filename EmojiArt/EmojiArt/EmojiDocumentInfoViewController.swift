@@ -54,6 +54,7 @@ class EmojiDocumentInfoViewController: UIViewController {
                 
                 //remove old constraint
                 thumbnailView.removeConstraint(thumbnailViewAspectRatio)
+                
                 //create a new constraint bease on thumbnail
                 thumbnailViewAspectRatio = NSLayoutConstraint(
                     item: thumbnailView, //both item and toItem are thumbnailView, since we are setting up the aspect ratio of thumbnailview
