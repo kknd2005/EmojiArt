@@ -659,8 +659,12 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
         //info[UIImagePickerController.InfoKey.editedImage] is the edited image
         //but what if the user didn't edit the image?
         //when we use info[UIImagePickerController.InfoKey.originalImage], which is the orignal image
-        if let image = (info[UIImagePickerController.InfoKey.editedImage] ?? info[UIImagePickerController.InfoKey.originalImage]) as? UIImage{
-            
+        if let image = ((info[UIImagePickerController.InfoKey.editedImage] ?? info[UIImagePickerController.InfoKey.originalImage]) as? UIImage)?.scaled(by: 0.25){
+            //storeLocallyAsJPEG is defined via extension in Utilites.swift
+            //Date.timeIntervalSinceReferenceDate pervides a uniqe string between 2001 to the current time
+            let url = image.storeLocallyAsJPEG(named: String(Date.timeIntervalSinceReferenceDate))
+            emojiArtBackgroundImage = (url, image) //this is a turple, remember?
+            documentChanged() //don't forget to save your document
         }
         
         picker.presentingViewController?.dismiss(animated: true)
