@@ -237,10 +237,16 @@
                                     <segue destination="Jh9-SH-K3O" kind="presentation" identifier="show document info" modalPresentationStyle="formSheet" id="TpE-Nu-BU2"/>
                                 </connections>
                             </barButtonItem>
+                            <barButtonItem systemItem="camera" id="boV-be-GDb">
+                                <connections>
+                                    <action selector="CameraButtonPress:" destination="Z7a-G9-Igh" id="Wij-if-ig7"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="CameraButton" destination="boV-be-GDb" id="MF3-HA-ZpF"/>
                         <outlet property="ImageFetchingActivityIndicator" destination="ysn-5S-jfS" id="IA1-1y-gdF"/>
                         <outlet property="collectionViewHeight" destination="W2l-rb-6zZ" id="jPA-Ol-l13"/>
                         <outlet property="containerViewWidth" destination="7Y8-GC-Jyo" id="GK2-tf-sRM"/>
@@ -470,6 +476,7 @@
                             <constraint firstItem="UEI-o2-iC1" firstAttribute="centerX" secondItem="Foa-bg-5vs" secondAttribute="centerX" id="WHP-kz-rXP"/>
                             <constraint firstItem="UEI-o2-iC1" firstAttribute="centerY" secondItem="Foa-bg-5vs" secondAttribute="centerY" id="xj6-Ad-eOW"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="Ep0-rr-2bA"/>
                     </view>
                     <connections>
                         <outlet property="contentStackView" destination="UEI-o2-iC1" id="kQo-GJ-gaC"/>

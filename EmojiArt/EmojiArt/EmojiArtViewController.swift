@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MobileCoreServices
 
 //extent EmojiArt.EmojiInfo here becase this is not a model thing, this is an UI thing
 extension EmojiArt.EmojiInfo{
@@ -26,7 +27,7 @@ extension EmojiArt.EmojiInfo{
 }
 
 
-class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate,UICollectionViewDropDelegate , UICollectionViewDelegateFlowLayout, UIPopoverPresentationControllerDelegate{
+class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate,UICollectionViewDropDelegate , UICollectionViewDelegateFlowLayout, UIPopoverPresentationControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
 
     
     // MODIFIED AFTER LECTURE 14
@@ -619,4 +620,49 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     
     weak var embededDocumentInfoViewController: EmojiDocumentInfoViewController?
     
+    
+    //MARK: - Camera
+    
+    @IBOutlet weak var CameraButton: UIBarButtonItem!{
+        didSet{
+            //check weather we have a camera
+            CameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+        }
+    }
+    
+    //Take an image for background
+    @IBAction func CameraButtonPress(_ sender: UIBarButtonItem) {
+        //1. create UIImagePickerController
+        let picker = UIImagePickerController()
+        
+        //2. configer UIImagePickerController
+        picker.sourceType = .camera
+        picker.mediaTypes = [kUTTypeImage as String]        //add "import MobileCoreServices" for this
+        picker.allowsEditing = true
+    
+        //3. set delegate = self
+        //Need both UIImagePickerControllerDelegate & UINavigationControllerDelegate
+        //Becuase UIImagePickerControllerDelegate inherents from UINavigationControllerDelegate
+        picker.delegate = self
+
+        //4. present the UI
+        present(picker, animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        //we could just say dismiss(animated: true)
+        //but it's better to be specfic
+        picker.presentingViewController?.dismiss(animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        //info[UIImagePickerController.InfoKey.editedImage] is the edited image
+        //but what if the user didn't edit the image?
+        //when we use info[UIImagePickerController.InfoKey.originalImage], which is the orignal image
+        if let image = (info[UIImagePickerController.InfoKey.editedImage] ?? info[UIImagePickerController.InfoKey.originalImage]) as? UIImage{
+            
+        }
+        
+        picker.presentingViewController?.dismiss(animated: true)
+    }
 }
