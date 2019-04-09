@@ -98,41 +98,47 @@ class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrol
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-         //for collectionView layout
-        collectionViewHeight.constant = fontSize * 1.6
-        if collectionViewHeight.constant < 100.0 {
-            collectionViewHeight.constant = 100.0
-        }
-        
-        //add observer to a Radio Station
-        documentObserver = NotificationCenter.default.addObserver(
-            forName: UIDocument.stateChangedNotification, //changed since iOS 11
-            object: emojiArtDocument, //target
-            queue: OperationQueue.main, //define which queue we are going to excute on
-            using: { Notification in
-                print("emojiArtDocument state changed")
-        })
-        
-        //add emojiArtViewDidChange notfication
-        emojiArtViewObserver = NotificationCenter.default.addObserver(
-            forName: Notification.Name.EmojiArtViewDidChange,
-            object: emojiArtView,
-            queue: nil,
-            using: { Notification in
-                self.documentChanged()
-                print("got music from emojiArtViewDidChange radio station")
-        })
-        
-        //load from document
-        //1. open the document
-        emojiArtDocument?.open{success in
-            if success{
-                //2. get json from document
-                self.title = self.emojiArtDocument?.localizedName
-                self.emojiArt = self.emojiArtDocument?.emojiArt
+        //the image doesn't show up becase viewWillAppear gets called after the camera view gets away
+        //in viewWillAppear, we open our doucment, that's why you don't see image after it was taken
+        //to fix this, simply check if the document's state = normal
+        //if yes, do nothing
+        if emojiArtDocument?.documentState != .normal{
+            
+            //for collectionView layout
+            collectionViewHeight.constant = fontSize * 1.6
+            if collectionViewHeight.constant < 100.0 {
+                collectionViewHeight.constant = 100.0
+            }
+            
+            //add observer to a Radio Station
+            documentObserver = NotificationCenter.default.addObserver(
+                forName: UIDocument.stateChangedNotification, //changed since iOS 11
+                object: emojiArtDocument, //target
+                queue: OperationQueue.main, //define which queue we are going to excute on
+                using: { Notification in
+                    print("emojiArtDocument state changed")
+            })
+            
+            //add emojiArtViewDidChange notfication
+            emojiArtViewObserver = NotificationCenter.default.addObserver(
+                forName: Notification.Name.EmojiArtViewDidChange,
+                object: emojiArtView,
+                queue: nil,
+                using: { Notification in
+                    self.documentChanged()
+                    print("got music from emojiArtViewDidChange radio station")
+            })
+            
+            //load from document
+            //1. open the document
+            emojiArtDocument?.open{success in
+                if success{
+                    //2. get json from document
+                    self.title = self.emojiArtDocument?.localizedName
+                    self.emojiArt = self.emojiArtDocument?.emojiArt
+                }
             }
         }
-        
     }
     
 
